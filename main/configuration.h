@@ -75,7 +75,7 @@
 #define MISO_GPIO       19
 #define MOSI_GPIO       27
 #define NSS_GPIO        18
-#define RESET_GPIO      23
+#define RESET_GPIO      14
 #define DIO0_GPIO       26
 #define DIO1_GPIO       33
 #define DIO2_GPIO       32
