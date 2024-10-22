@@ -3,3 +3,5 @@
 
 // DO NOT modify this
 #define CFG_sx1276_radio 1
+
+#define hal_init LMICHAL_init

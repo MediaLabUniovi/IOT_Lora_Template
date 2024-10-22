@@ -1,22 +1,20 @@
 /* ***********************************************************************************************************************************************************
 Lora to Do - MEDIALAB LPWAN UNIVERSIDAD DE OVIEDO
 *********************************************************************************************************************************************************** */
-
 #include "configuration.h"
-#include "ttn.h"
-#include "sensor.h"
-#include "sleep.h"
+#include "credentials.h"
+#include "lmic_project_config.h"
 #include "rom/rtc.h"
 
 
-static uint8_t txBuffer[20];                                 // Enter the length of the payload in bytes (this has to be more than 3 if you want to receive downlinks)
-int last = 0;
+static uint8_t txBuffer[TX_BUFFER_SIZE];      // Enter the length of the payload in bytes (this has to be more than 3 if you want to receive downlinks)
+unsigned long previousMillis = 0;             // Save the time from previous send
+boolean firstTime = true;
 
 
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
 // Funcion para enviar el paquete de datos LoRa
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 void loraSend(){
 
@@ -27,8 +25,6 @@ void loraSend(){
   #endif
 
   ttn_send(txBuffer, sizeof(txBuffer), LORAWAN_PORT, confirmed);
-
-  sleep();
 }
 
 
@@ -99,7 +95,6 @@ void callback(uint8_t message){
 
 
 
-
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
 // Funcion para activar o desactivar desde "configuration.h" el monitor serial para debugging
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -131,7 +126,7 @@ void setup(){
   ttn_register(callback);                                 // Configuración funcion de eventos Lora
   ttn_join();
   
-  ttn_sf(LORAWAN_SF);                                     // Configuración del Spreading Facto
+  ttn_sf(LORAWAN_SF);                                     // Configuración del Spreading Factor
   ttn_adr(LORAWAN_ADR);
 
 
@@ -144,12 +139,17 @@ void setup(){
 
 void loop(){
   ttn_loop();
+
+  unsigned long currentMillis = millis();  // Lee el tiempo actual
+
+  // Verifica si han pasado 30 segundos desde la última vez que se ejecutaron doSensor() y loraSend()
+  if (currentMillis - previousMillis >= INTERVAL || firstTime) {
+    previousMillis = currentMillis;  // Actualiza el tiempo de la última ejecución
+    firstTime =false;
     
-  Serial.println("Loop");
-  
-  doSensor(txBuffer);
-  
-  loraSend();
-  
+    doSensor(txBuffer);
+    
+    loraSend();
   }
+  
 }

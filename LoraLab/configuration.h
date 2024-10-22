@@ -9,17 +9,19 @@
 // Configuration
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+#define TX_BUFFER_SIZE          6
 #define CLOCK_ERROR             1
 #define DEBUG_PORT              Serial      // Serial debug port
 #define SERIAL_BAUD             115200      // Serial debug baud rate
 #define ENABLE_DEBUG            1           // Serial debug on/off
 #define SLEEP_BETWEEN_MESSAGES  1           // Do sleep between messages
 #define SEND_INTERVAL           10000       // Sleep for these many millis
+#define INTERVAL                30000       // Wait until next message if not sleep
 #define LORAWAN_PORT            1           // Port the messages will be sent to
 #define LORAWAN_CONFIRMED_EVERY 0           // Send confirmed message every these many messages
 #define LORAWAN_SF              DR_SF7      // Spreading factor
 #define LORAWAN_ADR             1           // Enable ADR
+
 
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
 // DEBUG
@@ -42,31 +44,9 @@
 // Sensores
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
 #include <Wire.h>
 
-#define SEALEVELPRESSURE_HPA (1013.25)
-#define heightoffset 56; //factor para calibrar la altura
 
-
-/*---------------------Variables Anemometro y veleta---------------------------------------------------------------------------------------------------------*/ 
-
-#include <math.h> 
-#define WindSensorPin (34) // El sensor se coloca en el pin 2 digital del arduino, el cual esta habilitado con la interrupcion 0 
-#define WindVanePin (04) // Pin analogico para controlar la direccion del viento  
-#define VaneOffset 0; // Factor para calibrar la veleta y que apunte al norte  
-
-/*----------------------Variables Pluviometro---------------------------------------------------------------------------------------------------------------*/
-
-#define PluviometroPin (36) // la interrupcion del pluviometro se hace con el Pin 3 digital del arduino 
-
-/*--------------------------------Digital input--------------------------------------------------------------------------------------------------------------*/
-#define  VOLTAGE_PIN 0
-
-/*--------------------------------BatteryRead--------------------------------------------------------------------------------------------------------------*/
-#define BatteryPin 12
 
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
 // LoRa SPI
