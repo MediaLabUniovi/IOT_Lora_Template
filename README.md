@@ -19,6 +19,8 @@ This template was developed by **MediaLab Uniovi**, a university laboratory of t
 - **LoRa SX1276/78** module (integrated on the LilyGO board)
 - Compatible sensors (you can add your own)
 
+
+<img src="https://www.tinytronics.nl/image/cache/catalog/products_2023/lilygo-ttgo-t3-lora32-868mhz-v1.6.1-esp32-600x600w.jpg" alt="MediaLab Uniovi Logo" width="200"/>
 ## Software Requirements
 
 - **Arduino IDE** (or any other compatible IDE for ESP32 platforms)
@@ -74,7 +76,7 @@ This template was developed by **MediaLab Uniovi**, a university laboratory of t
 
 ## About MediaLab Uniovi
 
-![MediaLab Uniovi Logo](img/medialab_logo.png)
+<img src="img/medialab_logo.png" alt="MediaLab Uniovi Logo" width="200"/>
 
 **MediaLab Uniovi** is a university laboratory of technology and design that was created in 2018 as a result of a collaboration between the **City Council of Gijón**, **Gijón Impulsa**, and the **University of Oviedo**. Its mission is to bring new technologies and project creation methodologies closer to people. MediaLab is based at the **School of Engineering of Gijón** and works to foster technological innovation and creativity.
 
