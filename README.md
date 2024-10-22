@@ -20,7 +20,7 @@ This template was developed by **MediaLab Uniovi**, a university laboratory of t
 - Compatible sensors (you can add your own)
 
 
-<img src="https://www.tinytronics.nl/image/cache/catalog/products_2023/lilygo-ttgo-t3-lora32-868mhz-v1.6.1-esp32-600x600w.jpg" alt="MediaLab Uniovi Logo" width="200"/>
+<img src="https://www.tinytronics.nl/image/cache/catalog/products_2023/lilygo-ttgo-t3-lora32-868mhz-v1.6.1-esp32-600x600w.jpg" alt="MediaLab Uniovi Logo" width="500"/>
 ## Software Requirements
 
 - **Arduino IDE** (or any other compatible IDE for ESP32 platforms)
