@@ -42,7 +42,7 @@ This template was developed by **MediaLab Uniovi**, a university laboratory of t
    Clone this repository to your local machine using:
 
    ```bash
-   git clone https://github.com/MediaLabUniovi/Lora-Template.git
+   git clone https://github.com/MediaLabUniovi/IOT_Lora_Template.git
    ```
 
 2. **Set up the environment**:
