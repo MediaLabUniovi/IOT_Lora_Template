@@ -11,7 +11,4 @@ void doSensor(uint8_t txBuffer[]) {
   txBuffer[0] = byte(temperature);
   txBuffer[1] = temperature >> 8;
 
-  Serial.println(txBuffer[0]);
-  Serial.println(txBuffer[1]);
-
 }
