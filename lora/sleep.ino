@@ -21,3 +21,13 @@ void sleep_seconds(uint32_t seconds) {
 void sleep_forever() {
     esp_deep_sleep_start();
 }
+
+
+void sleep(){
+  #if SLEEP_BETWEEN_MESSAGES == 1
+    Serial.println("Iniciando deep sleep...");                // Mostrar mensaje de que se ha iniciado el deep sleep
+  
+    uint32_t sleep_for = (millis() < SEND_INTERVAL ? SEND_INTERVAL - millis() : SEND_INTERVAL);
+    sleep_millis(sleep_for);
+  #endif
+}

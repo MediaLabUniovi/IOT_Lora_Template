@@ -9,28 +9,14 @@
 // Configuration
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#define TX_BUFFER_SIZE          6
-#define CLOCK_ERROR             1
-#define DEBUG_PORT              Serial      // Serial debug port
-#define SERIAL_BAUD             115200      // Serial debug baud rate
-#define ENABLE_DEBUG            1           // Serial debug on/off
+#define TX_BUFFER_SIZE          2
 #define SLEEP_BETWEEN_MESSAGES  1           // Do sleep between messages
-#define SEND_INTERVAL           10000       // Sleep for these many millis
-#define INTERVAL                30000       // Wait until next message if not sleep
+#define SEND_INTERVAL           60000       // Sleep for these many millis
 #define LORAWAN_PORT            1           // Port the messages will be sent to
 #define LORAWAN_CONFIRMED_EVERY 0           // Send confirmed message every these many messages
-#define LORAWAN_SF              DR_SF7      // Spreading factor
+#define LORAWAN_SF              DR_SF9      // Spreading factor
 #define LORAWAN_ADR             1           // Enable ADR
-
-
-// -----------------------------------------------------------------------------------------------------------------------------------------------------------
-// DEBUG
-// -----------------------------------------------------------------------------------------------------------------------------------------------------------
-#ifdef DEBUG_PORT
-#define DEBUG_MSG(...) DEBUG_PORT.printf( __VA_ARGS__ )
-#else
-#define DEBUG_MSG(...)
-#endif
+#define TX_COMPLETE_TIMEOUT_MS  30000       // Timeout to wait for EV_TXCOMPLETE before deep sleep
 
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
 // Custom messages
@@ -45,7 +31,6 @@
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #include <Wire.h>
-
 
 
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
