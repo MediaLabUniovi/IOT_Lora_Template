@@ -1,94 +1,91 @@
-<div align="right">
+# Plantilla LoRa — LilyGO T3 V1.6.1
 
-[![english](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/gb.png)](./README.md) | [![spanish](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/es.png)](./README_ES.md)
+Plantilla para enviar datos de sensores a través de **LoRaWAN (TTN)** con la placa **LilyGO T3 V1.6.1** (ESP32 + SX1276).
 
-</div>
+Desarrollada por **[MediaLab Uniovi](https://medialab.uniovi.es/)**.
 
-# Lora Template
+<img src="https://www.tinytronics.nl/image/cache/catalog/products_2023/lilygo-ttgo-t3-lora32-868mhz-v1.6.1-esp32-600x600w.jpg" width="400"/>
 
-This repository contains a template code designed for the **LilyGO T3 V1.6.1** board. The purpose of this project is to establish communication using **LoRa** technology to send sensor readings through a LoRa network.
+---
 
-This template was developed by **MediaLab Uniovi**, a university laboratory of technology and design that emerged in 2018 from a collaboration between the **City Council of Gijón**, **Gijón Impulsa**, and the **University of Oviedo**. MediaLab is headquartered at the **School of Engineering of Gijón**, and its main objective is to bring new technologies and project creation methodologies closer to people.
+## Requisitos
 
-## Features
+**Hardware**
+- LilyGO T3 V1.6.1 (módulo LoRa SX1276 integrado)
+- Sensores a medida
 
-- Compatible with the **LilyGO T3 V1.6.1** board
-- Support for **LoRa** communication
-- Modular and easy-to-customize template for adding new sensors
-- Efficient sensor data reading and transmission
-- Reliable communication with other stations in a LoRa network
+**Software**
+- Arduino IDE con soporte para ESP32
+- Librería [Arduino-LMIC](https://github.com/mcci-catena/arduino-lmic)
 
-## Hardware Requirements
+---
 
-- **LilyGO T3 V1.6.1**
-- **LoRa SX1276/78** module (integrated on the LilyGO board)
-- Compatible sensors (you can add your own)
+## Estructura del proyecto
 
+```
+lora/
+├── lora.ino           # Setup y loop principal
+├── sensor.ino         # Lectura de sensores y empaquetado del payload
+├── ttn.ino            # Gestión de la conexión LoRaWAN con TTN
+├── sleep.ino          # Deep sleep entre envíos
+├── configuration.h    # Parámetros configurables (intervalo, SF, pines...)
+├── credentials.h      # Claves TTN (APPEUI, DEVEUI, APPKEY)
+└── lmic_project_config.h
+```
 
-<img src="https://www.tinytronics.nl/image/cache/catalog/products_2023/lilygo-ttgo-t3-lora32-868mhz-v1.6.1-esp32-600x600w.jpg" alt="MediaLab Uniovi Logo" width="500"/>
-## Software Requirements
+---
 
-- **Arduino IDE** (or any other compatible IDE for ESP32 platforms)
-- Required libraries:
-  - Arduino-Lmic: Library to manage LoRa communication
-  - `Wire.h`: Library for I2C communication with sensors
-  - `SPI.h`: Library for SPI communication (LoRa)
-  - Additional libraries depending on the sensors you use
+## Puesta en marcha
 
-## Installation
+### 1. Clonar
 
-1. **Clone the repository**:
-   
-   Clone this repository to your local machine using:
+```bash
+git clone https://github.com/MediaLabUniovi/Lora-Template.git
+```
 
-   ```bash
-   git clone https://github.com/MediaLabUniovi/IOT_Lora_Template.git
-   ```
+### 2. Credenciales TTN
 
-2. **Set up the environment**:
-   
-   Open the project in **Arduino IDE** or your preferred IDE and ensure you have installed the necessary libraries mentioned above.
+Edita `lora/credentials.h` con los valores de tu dispositivo en TTN:
 
-3. **Connect your hardware**:
-   
-   - Connect the **LilyGO T3 V1.6.1** to your computer using a USB cable.
-   - Add the required sensors according to your application and connect them to the corresponding pins.
-   
-4. **Configure TTN credentials**:
-   
-   In the credentials code file (usually `credentials.h`), adjust the LoRa parameters such as **APPEUI**, **DEVEUI**, and **APPKEY** according to your TTN application:
+```cpp
+static const u1_t PROGMEM APPEUI[8]  = { ... };  // LSB first
+static const u1_t PROGMEM DEVEUI[8]  = { ... };  // LSB first
+static const u1_t PROGMEM APPKEY[16] = { ... };  // MSB first
+```
 
-   ```cpp
-       static const u1_t PROGMEM APPEUI[8]  = {};  // INTRODUCE EN LSB
-       static const u1_t PROGMEM DEVEUI[8]  = {};  // INTRODUCE EN LSB
-       static const u1_t PROGMEM APPKEY[16] = {};  // INTRODUCE EN MSB
-   ```
+### 3. Configuración
 
-5. **Upload the code**:
-   
-   Select the **TTGO LoRa 32-OLED** board from the tools menu and upload the code to the board.
+Ajusta los parámetros en `lora/configuration.h` según tus necesidades:
 
-## Usage
+| Parámetro | Por defecto | Descripción |
+|---|---|---|
+| `TX_BUFFER_SIZE` | 2 | Tamaño del payload en bytes |
+| `SEND_INTERVAL` | 60000 ms | Intervalo entre envíos |
+| `LORAWAN_SF` | DR_SF9 | Spreading Factor |
+| `LORAWAN_ADR` | 1 | ADR activado |
+| `SLEEP_BETWEEN_MESSAGES` | 1 | Deep sleep entre envíos |
 
-1. **Power up the board**: 
-   Once the code is uploaded, the board will start reading data from the connected sensors and send them over the LoRa network.
-   
-2. **Data reception**:
-   The sensor data sent can be received and visualized on another LoRa-compatible device within the network range.
-   
-3. **Modification and Customization**:
-   You can add new sensors by simply importing the required libraries and adding the code in the appropriate section of the template.
+### 4. Añadir sensores
 
-## About MediaLab Uniovi
+Edita `lora/sensor.ino`. La función `doSensor()` recibe el buffer de envío:
 
-<img src="img/medialab_logo.png" alt="MediaLab Uniovi Logo" width="200"/>
+```cpp
+void doSensor(uint8_t txBuffer[]) {
+  memset(txBuffer, 0, TX_BUFFER_SIZE);
 
-**MediaLab Uniovi** is a university laboratory of technology and design that was created in 2018 as a result of a collaboration between the **City Council of Gijón**, **Gijón Impulsa**, and the **University of Oviedo**. Its mission is to bring new technologies and project creation methodologies closer to people. MediaLab is based at the **School of Engineering of Gijón** and works to foster technological innovation and creativity.
+  // Lee tu sensor y rellena txBuffer
+  int valor = analogRead(PIN_SENSOR);
+  txBuffer[0] = byte(valor);
+  txBuffer[1] = valor >> 8;
+}
+```
 
-## Contributions
+### 5. Flashear
 
-Contributions are welcome. If you want to improve this project or add new features, feel free to open a **pull request** or create an **issue** in this repository.
+En Arduino IDE: selecciona la placa **TTGO LoRa32-OLED** y sube el código.
 
-## License
+---
 
-This project is licensed under the [MIT License](LICENSE).
+## Licencia
+
+[MIT](LICENSE) — MediaLab Uniovi
