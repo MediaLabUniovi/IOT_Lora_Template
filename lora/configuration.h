@@ -9,7 +9,7 @@
 // Configuration
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#define TX_BUFFER_SIZE          2
+#define TX_BUFFER_SIZE          8
 #define SLEEP_BETWEEN_MESSAGES  1           // Do sleep between messages
 #define SEND_INTERVAL           60000       // Sleep for these many millis
 #define LORAWAN_PORT            1           // Port the messages will be sent to
@@ -17,6 +17,7 @@
 #define LORAWAN_SF              DR_SF9      // Spreading factor
 #define LORAWAN_ADR             1           // Enable ADR
 #define TX_COMPLETE_TIMEOUT_MS  30000       // Timeout to wait for EV_TXCOMPLETE before deep sleep
+#define USE_OTAA              
 
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------
 // Custom messages
